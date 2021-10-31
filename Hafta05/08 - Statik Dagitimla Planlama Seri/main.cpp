@@ -30,7 +30,6 @@ void init(
 			A[satir * n + sutun] = satir >= sutun ? 1 : 0;
 		}
 	}
-	
 	for (uint64_t sutun = 0; sutun < n; sutun++)
 	{
 		x[sutun] = sutun;
@@ -53,8 +52,6 @@ void seri_carpim(
 		}
 		sonucVector[satir] = toplam;
 	}
-
-
 }
 
 int main()

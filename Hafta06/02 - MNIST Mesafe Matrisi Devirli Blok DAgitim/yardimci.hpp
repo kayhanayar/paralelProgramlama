@@ -1,10 +1,15 @@
+#pragma once
 #include<iostream>
 #include<thread>
 #include<vector>
 #include<future>
 #include <cstdint>
-#include<type_traits>
 #include <chrono>
+#include <string>
+#include <fstream>
+#define GUVBOL(x,y)(((x)+(y)-1)/(y))
+
+
 template<class T>
 class no_init_t {
 public:
@@ -66,3 +71,32 @@ private:
         std::chrono::duration<double> delta##label = b##label-a##label;        \
         std::cout << "# elapsed time ("<< #label <<"): "                       \
                   << delta##label.count()  << "s" << std::endl;    
+
+
+
+template <
+	typename index_t,
+	typename value_t>
+	void dump_binary(
+		const value_t* data,
+		const index_t length,
+		std::string filename) {
+
+	std::ofstream ofile(filename.c_str(), std::ios::binary);
+	ofile.write((char*)data, sizeof(value_t) * length);
+	ofile.close();
+}
+
+template <
+	typename index_t,
+	typename value_t>
+	void load_binary(
+		const value_t* data,
+		const index_t length,
+		std::string filename) {
+
+	std::ifstream ifile(filename.c_str(), std::ios::binary);
+
+	ifile.read((char*)data, sizeof(value_t) * length);
+	ifile.close();
+}

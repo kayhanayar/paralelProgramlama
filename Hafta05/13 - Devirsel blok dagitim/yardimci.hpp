@@ -3,8 +3,11 @@
 #include<vector>
 #include<future>
 #include <cstdint>
-#include<type_traits>
 #include <chrono>
+
+#define GUVBOL(x,y)(((x)+(y)-1)/(y))
+
+
 template<class T>
 class no_init_t {
 public:

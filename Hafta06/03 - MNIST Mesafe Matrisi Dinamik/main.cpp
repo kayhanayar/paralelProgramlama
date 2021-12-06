@@ -2,7 +2,7 @@
 #include<iomanip>
 using namespace std;
 
-void devirli_blok_paralel_uzaklik_Hesaplamasi(
+void dinamik_blok_paralel_uzaklik_Hesaplamasi(
 	vector<float>& mnist,
 	vector<float>& uzaklikMatrisi,
 	uint64_t satir,
@@ -11,13 +11,22 @@ void devirli_blok_paralel_uzaklik_Hesaplamasi(
 	uint64_t parcaBoyutu=8/(sizeof(float))
 )
 {
+	std::mutex mutex;
+	uint64_t global_sinir=0;
 	auto devirli_blok = [&](const uint64_t& id) {
-		const uint64_t bas = id * parcaBoyutu;
-		const uint64_t uzun = iplikSayisi * parcaBoyutu;
-		for (uint64_t alt = bas; alt < satir; alt += uzun)
+
+		uint64_t dusukSinir = 0;
+
+		while (dusukSinir < satir)
 		{
-			const uint64_t ust = std::min(alt + parcaBoyutu, satir);
-			for (uint64_t i = alt; i < ust; i++)
+
+			{
+				lock_guard<mutex> kritikBolge(mutex);
+				dusukSinir = global_sinir;
+				global_sinir += parcaBoyutu;
+			}
+			const uint64_t ust = std::min(dusukSinir + parcaBoyutu, satir);
+			for (uint64_t i = dusukSinir; i < ust; i++)
 			{
 				for (uint64_t I = 0; I <= i; I++)
 				{
@@ -33,6 +42,7 @@ void devirli_blok_paralel_uzaklik_Hesaplamasi(
 			}
 		}
 	};
+
 
 	std::vector<thread> iplikler;
 
@@ -54,7 +64,7 @@ int main()
 
 	TIMERSTART(MesafeleriHesaplama)
 	std::vector<float> mesafeMatrisi(satir * satir);
-	devirli_blok_paralel_uzaklik_Hesaplamasi(mnist, mesafeMatrisi, satir, sutun);
+	dinamik_blok_paralel_uzaklik_Hesaplamasi(mnist, mesafeMatrisi, satir, sutun);
 	TIMERSTOP(MesafeleriHesaplama)
 }
 

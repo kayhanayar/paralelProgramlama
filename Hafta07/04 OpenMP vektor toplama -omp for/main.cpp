@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-	const uint64_t girisSayisi = 1UL << 30;
+	const uint64_t girisSayisi = 1UL << 24;
 	vector<uint64_t> x(girisSayisi);
 	vector<uint64_t> y(girisSayisi);
 	vector<uint64_t> z(girisSayisi);

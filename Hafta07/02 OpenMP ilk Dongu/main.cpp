@@ -9,9 +9,10 @@ int main()
 	{
 		int a = omp_get_thread_num();
 		int n = omp_get_num_threads();
-		#pragma omp for
+		#pragma omp for 
 		for(int i=0;i<10;i++)
 		{
+			#pragma omp critical
 			cout<<a<<":"<<i<<endl;
 		}
 	}

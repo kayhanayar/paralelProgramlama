@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
 
-	uint64_t turSayisi=1<<24;
+	uint64_t turSayisi=1<<30;
 	uint64_t toplam=0;
 
 	TIMERSTART(kritikZaman)

@@ -11,7 +11,7 @@ int main()
 
 
 	TIMERSTART(statik)
- 	#pragma omp parallel for num_threads(2) reduction(+:toplam) schedule(static,2)
+ 	#pragma omp parallel for num_threads(2) reduction(+:toplam) schedule(static,4)
 	for(uint64_t i=0;i<turSayisi;i++)
 	{
 		#pragma omp critical
@@ -23,7 +23,7 @@ int main()
 	TIMERSTART(guided)
 	cout<<"------------------------------------"<<endl;
 	string diziler[4];
- 	#pragma omp parallel for num_threads(4) reduction(+:toplam) schedule(guided,1)
+ 	#pragma omp parallel for num_threads(4) reduction(+:toplam) schedule(guided,8)
 	for(uint64_t i=0;i<turSayisi;i++)
 	{
 		#pragma omp critical
